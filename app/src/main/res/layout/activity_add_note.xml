@@ -7,18 +7,6 @@
         android:layout_height="match_parent"
         tools:context=".AddNoteActivity">
 
-    <TextView
-            android:text="@string/add_note_message"
-            android:layout_width="200dp"
-            android:layout_height="135px"
-            android:gravity="center"
-            android:textSize="30dp"
-            android:id="@+id/textView"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/discardButton"
-            app:layout_constraintEnd_toStartOf="@+id/applyButton"
-    />
     <EditText
             android:layout_width="match_parent"
             android:layout_height="500dp"
@@ -48,25 +36,26 @@
     <Button
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:id="@+id/discardButton" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toStartOf="@+id/textView"
+            android:id="@+id/discardButton"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:background="@android:drawable/ic_delete" app:layout_constraintHorizontal_bias="0.4"
+            android:background="@android:drawable/ic_delete"
             android:onClick="exit"
-    />
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginStart="123dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="123dp"
+            app:layout_constraintEnd_toStartOf="@+id/applyButton" android:layout_marginEnd="200dp"
+            android:layout_marginRight="200dp"/>
 
     <Button
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:id="@+id/applyButton" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView"
+            android:id="@+id/applyButton"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:background="@android:drawable/checkbox_on_background" android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:background="@android:drawable/checkbox_on_background"
             android:onClick="createNote"
+            android:layout_marginEnd="123dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="123dp" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toEndOf="@+id/discardButton"
     />
     <TextView
             android:text="@string/note_name_message"

@@ -2,5 +2,4 @@
     <string name="app_name">Anteckningar</string>
     <string name="add_note_message">Anteckning</string>
     <string name="note_name_message">Namn</string>
-    <string name="storage_location"></string>
 </resources>
