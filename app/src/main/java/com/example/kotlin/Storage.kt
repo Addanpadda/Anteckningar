@@ -35,6 +35,10 @@ class Storage: Storage_Interface {
     }
 
     override fun loadFile(fileName: String): String {
+        if (!File(storagePath, fileName).exists()) {
+            return String()
+        }
+
         var reader = BufferedReader(FileReader(fileName))
         var content = reader.readText()
         reader.close()
