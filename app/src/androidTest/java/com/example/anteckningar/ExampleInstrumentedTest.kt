@@ -1,4 +1,4 @@
-package com.example.kotlin
+package com.example.anteckningar
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

@@ -1,19 +1,11 @@
-package com.example.kotlin
+package com.example.anteckningar.adapters
 
-import android.content.Context;
+import android.content.Context
+import com.example.anteckningar.usecases.Storage_Interface
 import java.io.*
 
 
-interface Storage_Interface {
-    var storagePath: String
-
-    fun saveFile(fileName: String, content: String)
-    fun loadFile(fileName: String): String
-    fun listFiles(context: Context): Array<String>
-}
-
-
-class Storage: Storage_Interface {
+class Storage : Storage_Interface {
     override var storagePath = String()
 
     constructor(context: Context) {

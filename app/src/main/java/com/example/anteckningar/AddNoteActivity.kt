@@ -1,4 +1,4 @@
-package com.example.kotlin
+package com.example.anteckningar
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +9,6 @@ import java.io.File
 
 import android.util.Log
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_add_note.*
 import java.io.BufferedWriter
 import java.io.FileWriter
 import java.lang.Exception
