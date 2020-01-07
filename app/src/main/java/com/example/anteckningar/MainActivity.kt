@@ -12,9 +12,10 @@ import java.lang.Exception
 import android.view.Gravity
 import android.widget.Button
 import android.widget.LinearLayout
+import com.example.anteckningar.adapters.Storage
 
 
-val NAME_OF_NOTE_MESSAGE = "NAME.OF.NOTE.MESSAGE"
+val NAME_OF_NOTE_MESSAGE = "name"
 var nameOfNote   = String()
 
 

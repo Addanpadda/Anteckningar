@@ -1,11 +1,11 @@
 package com.example.anteckningar.adapters
 
 import android.content.Context
-import com.example.anteckningar.usecases.Storage_Interface
+import com.example.anteckningar.usecases.Storage
 import java.io.*
 
 
-class Storage : Storage_Interface {
+class Storage : Storage {
     override var storagePath = String()
 
     constructor(context: Context) {
