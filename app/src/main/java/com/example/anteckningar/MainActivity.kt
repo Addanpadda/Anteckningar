@@ -12,11 +12,10 @@ import java.lang.Exception
 import android.view.Gravity
 import android.widget.Button
 import android.widget.LinearLayout
-import com.example.anteckningar.adapters.Storage
 
 
 val NAME_OF_NOTE_MESSAGE = "name"
-var nameOfNote   = String()
+var nameOfNote           = String()
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +23,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        var storage = Storage(getApplicationContext())
+        Log.d("TEST", storage.storagePath)
 
         var linearLayout: LinearLayout = findViewById(R.id.noteListLayout)
 
@@ -43,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
             linearLayout.addView(button)
         }
+
     }
 
     fun addNote(view: View) {

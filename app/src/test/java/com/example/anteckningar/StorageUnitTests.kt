@@ -1,26 +1,64 @@
 package com.example.anteckningar
 
-import android.content.Context
 import org.junit.Test
 import org.junit.Assert
-import org.mockito.Mockito
+import com.example.anteckningar.usecases.Storage
 
-import com.example.anteckningar.adapters.Storage
-import org.junit.Before
+
+class StorageTestImplement : Storage {
+    override var storagePath = "/data/data/com.example.anteckningar"
+    private var files: HashMap<String, String> = hashMapOf()
+
+
+    override fun saveFile(fileName: String, content: String) {
+        files.put(fileName, content)
+    }
+
+    override fun deleteFile(fileName: String) {
+        files.remove(fileName)
+    }
+
+    override fun loadFile(fileName: String): String {
+        return files.getValue(fileName)
+    }
+
+    override fun listFiles(): Array<String> {
+        return files.keys.toTypedArray()
+    }
+}
 
 
 class StorageUnitTests {
+    @Test
+    fun storageSaveAndListFile() {
+        val fileName = "filename.txt"
+        var storage = StorageTestImplement()
 
-    private lateinit var context: Context
-
-    @Before
-    fun setup() {
-        context = Mockito.mock(Context::class.java)
+        storage.saveFile(fileName, "")
+        Assert.assertEquals(fileName, storage.listFiles()[0])
     }
 
     @Test
-    fun storagePath() {
-        var storage = Storage(context)
-        Assert.assertEquals(context.filesDir, storage.storagePath)
+    fun storageDeleteFile() {
+        val firstFileName = "filename.txt"
+        val secondFileName = "filename2.txt"
+        var storage = StorageTestImplement()
+
+        storage.saveFile(firstFileName, "")
+        storage.saveFile(secondFileName, "")
+
+        Assert.assertEquals(2, storage.listFiles().size)
+        storage.deleteFile(secondFileName)
+        Assert.assertEquals(1, storage.listFiles().size)
+    }
+
+    @Test
+    fun storageLoadFile() {
+        val content = "Context of file."
+        val fileName = "filename.txt"
+        var storage = StorageTestImplement()
+
+        storage.saveFile(fileName, content)
+        Assert.assertEquals(content, storage.loadFile(fileName))
     }
 }

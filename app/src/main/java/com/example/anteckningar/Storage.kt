@@ -1,4 +1,4 @@
-package com.example.anteckningar.adapters
+package com.example.anteckningar
 
 import android.content.Context
 import com.example.anteckningar.usecases.Storage
@@ -7,11 +7,13 @@ import java.io.*
 
 class Storage : Storage {
     override var storagePath = String()
+    var context: Context
 
-    constructor(context: Context) {
+    constructor(applicationContext: Context) {
         // TODO: Seperate files dir for the files
         // storagePath = context.filesDir+"/files"
 
+        context = applicationContext
         storagePath = context.filesDir as String
     }
 
@@ -26,6 +28,11 @@ class Storage : Storage {
         writer.close()
     }
 
+    override fun deleteFile(fileName: String) {
+        var file = File(storagePath, fileName)
+        if (file.exists()) file.delete()
+    }
+
     override fun loadFile(fileName: String): String {
         if (!File(storagePath, fileName).exists()) {
             return String()
@@ -38,7 +45,7 @@ class Storage : Storage {
         return content
     }
 
-    override fun listFiles(context: Context): Array<String> {
+    override fun listFiles(): Array<String> {
         return context.fileList()
     }
 }
