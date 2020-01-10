@@ -7,14 +7,14 @@ import java.io.*
 
 class Storage : Storage {
     override var storagePath = String()
-    var context: Context
+    //var context: Context
 
-    constructor(applicationContext: Context) {
+    constructor(path: String) {
         // TODO: Seperate files dir for the files
         // storagePath = context.filesDir+"/files"
 
-        context = applicationContext
-        storagePath = context.filesDir as String
+        //context = applicationContext
+        storagePath = path//context.filesDir as String
     }
 
     override fun saveFile(fileName: String, content: String) {
@@ -46,6 +46,13 @@ class Storage : Storage {
     }
 
     override fun listFiles(): Array<String> {
-        return context.fileList()
+        var fileNames: MutableList<String> = ArrayList()
+        var files = File(storagePath).listFiles()
+
+        for (file in files) {
+            fileNames.add(file.name)
+        }
+
+        return fileNames.toTypedArray()
     }
 }

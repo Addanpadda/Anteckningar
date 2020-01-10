@@ -7,7 +7,7 @@ import com.example.anteckningar.usecases.Storage
 
 class StorageTestImplement : Storage {
     override var storagePath = "/data/data/com.example.anteckningar"
-    private var files: HashMap<String, String> = hashMapOf()
+    var files: HashMap<String, String> = hashMapOf()
 
 
     override fun saveFile(fileName: String, content: String) {
@@ -30,12 +30,15 @@ class StorageTestImplement : Storage {
 
 class StorageUnitTests {
     @Test
-    fun storageSaveAndListFile() {
+    fun storageSaveFile() {
         val fileName = "filename.txt"
-        var storage = StorageTestImplement()
+        val content = "Example content"
 
-        storage.saveFile(fileName, "")
-        Assert.assertEquals(fileName, storage.listFiles()[0])
+        val storage = StorageTestImplement()
+        storage.saveFile(fileName, content)
+
+        Assert.assertEquals(fileName, storage.files.keys.toTypedArray()[0])
+        Assert.assertEquals(content, storage.files.values.toTypedArray()[0])
     }
 
     @Test
@@ -54,11 +57,20 @@ class StorageUnitTests {
 
     @Test
     fun storageLoadFile() {
-        val content = "Context of file."
+        val content = "Example content"
         val fileName = "filename.txt"
         var storage = StorageTestImplement()
 
         storage.saveFile(fileName, content)
         Assert.assertEquals(content, storage.loadFile(fileName))
+    }
+
+    @Test
+    fun storageListFile() {
+        val fileName = "filename.txt"
+        var storage = StorageTestImplement()
+
+        storage.saveFile(fileName, "")
+        Assert.assertEquals(fileName, storage.listFiles()[0])
     }
 }

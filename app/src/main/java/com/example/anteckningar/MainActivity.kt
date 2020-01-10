@@ -13,6 +13,8 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.LinearLayout
 
+import com.example.anteckningar.Storage
+
 
 val NAME_OF_NOTE_MESSAGE = "name"
 var nameOfNote           = String()
@@ -24,12 +26,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var storage = Storage(getApplicationContext())
-        Log.d("TEST", storage.storagePath)
+        //var storage = Storage(getApplicationContext().filesDir as String)
+        //storage.saveFile("test", "In this file is some test text.")
+        //Log.d("TEST", storage.saveFile("test", "In this file is some test text."))
+
+
+        var storage = Storage(getApplicationContext().filesDir as String)
+        //var noteNames: Array<String> = storage.listFiles() //retreiveNoteNames()
 
         var linearLayout: LinearLayout = findViewById(R.id.noteListLayout)
-
-        var noteNames: Array<String> = retreiveNoteNames()
+        var noteNames = retreiveNoteNames()
+        for (noteName in noteNames) Log.d("Test", noteName)
 
         for (item in noteNames) {
             Log.d("Debug: ", item)
