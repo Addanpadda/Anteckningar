@@ -27,10 +27,10 @@ class AddNoteActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.note).text     = note.content
     }
 
-    fun saveNote(view: View) {
+    fun saveNote() {
         val note = getNoteFromEditText()
         storage.saveNote(note)
-        exit(view)
+        exit()
     }
 
     private fun getNoteFromEditText(): Note {
@@ -43,10 +43,10 @@ class AddNoteActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        exit(findViewById(R.id.discardButton))
+        exit()
     }
 
-    fun exit(view: View) {
+    fun exit() {
         resetNameOfNote()
         startMainActivity()
     }
