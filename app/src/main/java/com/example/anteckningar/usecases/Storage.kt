@@ -1,11 +1,13 @@
 package com.example.anteckningar.usecases
 
+import com.example.anteckningar.entities.Note
+
 
 interface Storage {
     var storagePath: String
 
-    fun saveFile(fileName: String, content: String)
-    fun deleteFile(fileName: String)
-    fun loadFile(fileName: String): String
-    fun listFiles(): Array<String>
+    fun saveNote(note: Note)
+    fun deleteNote(note: Note)
+    fun loadNote(noteName: String): Note
+    fun listNoteNames(): Array<String>
 }

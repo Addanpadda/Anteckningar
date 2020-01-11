@@ -52,7 +52,7 @@
             android:id="@+id/applyButton"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:background="@android:drawable/checkbox_on_background"
-            android:onClick="createNote"
+            android:onClick="saveNote"
             android:layout_marginEnd="123dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="123dp" android:layout_marginTop="16dp"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toEndOf="@+id/discardButton"

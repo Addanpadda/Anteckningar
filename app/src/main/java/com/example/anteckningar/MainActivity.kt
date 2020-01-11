@@ -7,17 +7,16 @@ import android.os.Bundle
 import android.view.View
 
 import android.util.Log
-import java.lang.Exception
 
 import android.view.Gravity
 import android.widget.Button
 import android.widget.LinearLayout
 
-import com.example.anteckningar.Storage
 
-
-val NAME_OF_NOTE_MESSAGE = "name"
+val NAME_OF_NOTE_MESSAGE = "NAME"
 var nameOfNote           = String()
+
+lateinit var storage: Storage
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,28 +24,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //var storage = Storage(getApplicationContext().filesDir as String)
-        //storage.saveFile("test", "In this file is some test text.")
-        //Log.d("TEST", storage.saveFile("test", "In this file is some test text."))
-
-
-        var storage = Storage(getApplicationContext().filesDir as String)
-        //var noteNames: Array<String> = storage.listFiles() //retreiveNoteNames()
+        storage = Storage(getApplicationInfo().dataDir+"/files")
 
         var linearLayout: LinearLayout = findViewById(R.id.noteListLayout)
-        var noteNames = retreiveNoteNames()
-        for (noteName in noteNames) Log.d("Test", noteName)
 
-        for (item in noteNames) {
-            Log.d("Debug: ", item)
+        //var storage = Storage(getApplicationInfo().dataDir+"/files")
+        var noteNames: Array<String> = storage.listNoteNames()
+        for (name in noteNames) Log.d("Test", name)
 
+        Log.d("Content", storage.loadNote("ut.txt").content)
+
+        for (noteName in noteNames) {
             var button: Button = Button(this)
-            button.setText(item)
+            button.setText(noteName)
             button.setTextSize(20.0f)
             button.setGravity(Gravity.CENTER)
             button.setOnClickListener {
-                nameOfNote = item
+                nameOfNote = noteName
                 addNote(button)
             }
 
@@ -60,17 +54,5 @@ class MainActivity : AppCompatActivity() {
             putExtra(NAME_OF_NOTE_MESSAGE, nameOfNote)
         }
         startActivity(intent)
-    }
-
-    fun retreiveNoteNames(): Array<String> {
-
-        try {
-            var files: Array<String> = getApplicationContext().fileList()
-            return files
-        } catch (e: Exception) {
-            Log.d("Error: ", "Could not get files " + e.toString())
-        }
-
-        return emptyArray()
     }
 }

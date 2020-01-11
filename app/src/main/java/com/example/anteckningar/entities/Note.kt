@@ -1,3 +1,3 @@
 package com.example.anteckningar.entities
 
-data class Note(val content: String)
+data class Note(var name: String, var content: String)

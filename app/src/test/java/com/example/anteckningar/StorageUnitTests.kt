@@ -1,5 +1,6 @@
 package com.example.anteckningar
 
+import com.example.anteckningar.entities.Note
 import org.junit.Test
 import org.junit.Assert
 import com.example.anteckningar.usecases.Storage
@@ -10,19 +11,19 @@ class StorageTestImplement : Storage {
     var files: HashMap<String, String> = hashMapOf()
 
 
-    override fun saveFile(fileName: String, content: String) {
-        files.put(fileName, content)
+    override fun saveNote(note: Note) {
+        files.put(note.name, note.content)
     }
 
-    override fun deleteFile(fileName: String) {
-        files.remove(fileName)
+    override fun deleteNote(note: Note) {
+        files.remove(note.name)
     }
 
-    override fun loadFile(fileName: String): String {
-        return files.getValue(fileName)
+    override fun loadNote(fileName: String): Note {
+        return Note("", files.getValue(fileName))
     }
 
-    override fun listFiles(): Array<String> {
+    override fun listNoteNames(): Array<String> {
         return files.keys.toTypedArray()
     }
 }
@@ -30,47 +31,45 @@ class StorageTestImplement : Storage {
 
 class StorageUnitTests {
     @Test
-    fun storageSaveFile() {
-        val fileName = "filename.txt"
-        val content = "Example content"
+    fun storageSaveNote() {
+        var note = Note("Note-name", "Contents of note.")
 
         val storage = StorageTestImplement()
-        storage.saveFile(fileName, content)
+        storage.saveNote(note)
 
-        Assert.assertEquals(fileName, storage.files.keys.toTypedArray()[0])
-        Assert.assertEquals(content, storage.files.values.toTypedArray()[0])
+        Assert.assertEquals(note.name, storage.files.keys.toTypedArray()[0])
+        Assert.assertEquals(note.content, storage.files.values.toTypedArray()[0])
     }
 
     @Test
     fun storageDeleteFile() {
-        val firstFileName = "filename.txt"
-        val secondFileName = "filename2.txt"
+        val firstNote = Note("Notename1", "")
+        val secondNote = Note("Notename2", "")
         var storage = StorageTestImplement()
 
-        storage.saveFile(firstFileName, "")
-        storage.saveFile(secondFileName, "")
+        storage.saveNote(firstNote)
+        storage.saveNote(secondNote)
 
-        Assert.assertEquals(2, storage.listFiles().size)
-        storage.deleteFile(secondFileName)
-        Assert.assertEquals(1, storage.listFiles().size)
+        Assert.assertEquals(2, storage.listNoteNames().size)
+        storage.deleteNote(secondNote)
+        Assert.assertEquals(1, storage.listNoteNames().size)
     }
 
     @Test
-    fun storageLoadFile() {
-        val content = "Example content"
-        val fileName = "filename.txt"
+    fun storageLoadNote() {
+        val note = Note("Notename", "Example content.")
         var storage = StorageTestImplement()
 
-        storage.saveFile(fileName, content)
-        Assert.assertEquals(content, storage.loadFile(fileName))
+        storage.saveNote(note)
+        Assert.assertEquals(note.content, storage.loadNote(note.name).content)
     }
 
     @Test
     fun storageListFile() {
-        val fileName = "filename.txt"
+        val note = Note("Notename", "")
         var storage = StorageTestImplement()
 
-        storage.saveFile(fileName, "")
-        Assert.assertEquals(fileName, storage.listFiles()[0])
+        storage.saveNote(note)
+        Assert.assertEquals(note.name, storage.listNoteNames()[0])
     }
 }

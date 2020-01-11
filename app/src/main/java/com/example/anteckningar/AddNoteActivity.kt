@@ -5,13 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import java.io.File
 
-import android.util.Log
 import android.widget.TextView
-import java.io.BufferedWriter
-import java.io.FileWriter
-import java.lang.Exception
+import com.example.anteckningar.entities.Note
 
 
 class AddNoteActivity : AppCompatActivity() {
@@ -20,47 +16,48 @@ class AddNoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_note)
 
+        applySavedNoteToTextView()
+    }
+
+    private fun applySavedNoteToTextView() {
         val nameOfNote = intent.getStringExtra(NAME_OF_NOTE_MESSAGE)
+        val note = storage.loadNote(nameOfNote)
 
-        findViewById<TextView>(R.id.noteName).apply {
-            text = nameOfNote
-        }
-        findViewById<TextView>(R.id.note).apply {
-            text = "Here is supposed to be the contents of the file."
-        }
+        findViewById<TextView>(R.id.noteName).text = note.name
+        findViewById<TextView>(R.id.note).text     = note.content
     }
 
-    fun createNote(view: View) {
-
-        val noteNameEditText = findViewById<EditText>(R.id.noteName)
-        val noteName = noteNameEditText.text.toString()
-        val noteEditText = findViewById<EditText>(R.id.note)
-        val note = noteEditText.text.toString()
-
-        var file: File = File(getApplicationContext().filesDir, noteName+".txt")
-        if (!file.exists()) {
-            file.createNewFile()
-            Log.d("DEBUG: ", "File did not existed so one was created!")
-        } else {
-            Log.d("DEBUG: ", "File existed already nothing was done!")
-        }
-
-        try {
-            var writer: BufferedWriter = BufferedWriter(FileWriter(file, false))
-            writer.write(note)
-            writer.close()
-        } catch (e: Exception) {
-            Log.d("Error: ", e.toString())
-        }
-
+    fun saveNote(view: View) {
+        val note = getNoteFromEditText()
+        storage.saveNote(note)
         exit(view)
-
     }
 
+    private fun getNoteFromEditText(): Note {
+        val noteNameEditText = findViewById<EditText>(R.id.noteName)
+        val noteContentEditText = findViewById<EditText>(R.id.note)
+        val note = Note(noteNameEditText.text.toString(), noteContentEditText.text.toString())
+
+        return note
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        exit(findViewById(R.id.discardButton))
+    }
 
     fun exit(view: View) {
+        resetNameOfNote()
+        startMainActivity()
+    }
+
+    private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
+    }
+
+    private fun resetNameOfNote() {
+        nameOfNote = String()
     }
 }

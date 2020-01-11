@@ -1,51 +1,49 @@
 package com.example.anteckningar
 
-import android.content.Context
+import com.example.anteckningar.entities.Note
 import com.example.anteckningar.usecases.Storage
 import java.io.*
 
 
 class Storage : Storage {
     override var storagePath = String()
-    //var context: Context
 
     constructor(path: String) {
         // TODO: Seperate files dir for the files
         // storagePath = context.filesDir+"/files"
 
-        //context = applicationContext
-        storagePath = path//context.filesDir as String
+        storagePath = path //context.filesDir as String
     }
 
-    override fun saveFile(fileName: String, content: String) {
-        var file = File(storagePath, fileName)
+    override fun saveNote(note: Note) {
+        var file = File(storagePath, note.name)
         if (!file.exists()) {
             file.createNewFile()
         }
 
         var writer = BufferedWriter(FileWriter(file, false))
-        writer.write(content)
+        writer.write(note.content)
         writer.close()
     }
 
-    override fun deleteFile(fileName: String) {
-        var file = File(storagePath, fileName)
+    override fun deleteNote(note: Note) {
+        var file = File(storagePath+"/"+note.name)
         if (file.exists()) file.delete()
     }
 
-    override fun loadFile(fileName: String): String {
-        if (!File(storagePath, fileName).exists()) {
-            return String()
+    override fun loadNote(fileName: String): Note {
+        if (fileName.isEmpty() || !File(storagePath, fileName).exists()) {
+            return Note(String(), String())
         }
 
-        var reader = BufferedReader(FileReader(fileName))
+        var reader = BufferedReader(FileReader(storagePath + "/" + fileName))
         var content = reader.readText()
         reader.close()
 
-        return content
+        return Note(fileName, content)
     }
 
-    override fun listFiles(): Array<String> {
+    override fun listNoteNames(): Array<String> {
         var fileNames: MutableList<String> = ArrayList()
         var files = File(storagePath).listFiles()
 
