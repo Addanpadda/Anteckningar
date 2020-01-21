@@ -9,21 +9,22 @@ class Storage : Storage {
     override var storagePath = String()
 
     constructor(path: String) {
-        // TODO: Seperate files dir for the files
-        // storagePath = context.filesDir+"/files"
-
-        storagePath = path //context.filesDir as String
+        storagePath = path
+        var dir = File(storagePath)
+        if (!dir.exists()) dir.mkdirs()
     }
 
     override fun saveNote(note: Note) {
-        var file = File(storagePath, note.name)
-        if (!file.exists()) {
-            file.createNewFile()
-        }
+        var file = File(storagePath, removeSpaces(note.name))
+        if (!file.exists()) file.createNewFile()
 
         var writer = BufferedWriter(FileWriter(file, false))
         writer.write(note.content)
         writer.close()
+    }
+
+    private fun removeSpaces(str: String): String{
+        return str.replace(" ", "-")
     }
 
     override fun deleteNote(note: Note) {

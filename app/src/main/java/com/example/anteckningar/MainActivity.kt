@@ -13,14 +13,10 @@ import android.widget.Button
 import android.widget.LinearLayout
 
 
-val NAME_OF_NOTE_MESSAGE = "NAME"
-var nameOfNote           = String()
-
 lateinit var storage: Storage
 
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initStorage() {
-        storage = Storage(getApplicationInfo().dataDir + "/files")
+        storage = Storage(getApplicationInfo().dataDir + "/files/notes")
     }
 
     private fun loadNotes() {
@@ -45,18 +41,20 @@ class MainActivity : AppCompatActivity() {
             button.setTextSize(20.0f)
             button.setGravity(Gravity.CENTER)
             button.setOnClickListener {
-                nameOfNote = noteName
-                openNote(button)
+                openNote(noteName)
             }
 
             linearLayout.addView(button)
         }
     }
 
-    fun openNote(view: View) {
-        val intent = Intent(this, AddNoteActivity::class.java).apply {
-            putExtra(NAME_OF_NOTE_MESSAGE, nameOfNote)
-        }
+    fun createNewNote(view: View) {
+        openNote("")
+    }
+
+    fun openNote(noteName: String) {
+        val intent = Intent(this, AddNoteActivity::class.java)
+        intent.putExtra("NOTE_NAME", noteName)
         startActivity(intent)
     }
 }

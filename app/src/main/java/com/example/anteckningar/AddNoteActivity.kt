@@ -20,17 +20,17 @@ class AddNoteActivity : AppCompatActivity() {
     }
 
     private fun applySavedNoteToTextView() {
-        val nameOfNote = intent.getStringExtra(NAME_OF_NOTE_MESSAGE)
+        val nameOfNote = intent.getStringExtra("NOTE_NAME")
         val note = storage.loadNote(nameOfNote)
 
         findViewById<TextView>(R.id.noteName).text = note.name
-        findViewById<TextView>(R.id.note).text     = note.content
+        findViewById<TextView>(R.id.note).text = note.content
     }
 
-    fun saveNote() {
+    fun saveNote(view: View) {
         val note = getNoteFromEditText()
         storage.saveNote(note)
-        exit()
+        exit(view)
     }
 
     private fun getNoteFromEditText(): Note {
@@ -41,23 +41,20 @@ class AddNoteActivity : AppCompatActivity() {
         return note
     }
 
+    fun deleteNote(view: View) {
+        val note = getNoteFromEditText()
+        storage.deleteNote(note)
+        exit(view)
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
-        exit()
+        exit(findViewById(R.id.backButton))
     }
 
-    fun exit() {
-        resetNameOfNote()
-        startMainActivity()
-    }
-
-    private fun startMainActivity() {
+    fun exit(view: View) {
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
-    }
-
-    private fun resetNameOfNote() {
-        nameOfNote = String()
     }
 }
